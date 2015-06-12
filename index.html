@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>wackAparrot</title>
+    <style>
+        body{
+            background-color: darkturquoise;
+            margin: 0;
+        }
+        #container{
+            width: 100%;
+
+        }
+        #game{
+            background-color: aliceblue;
+            width: 768px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        #numHits{
+            float: left;
+        }
+        #numMisses{
+            float: right;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h3 id="numMisses">0</h3>
+        <h3 id="numHits">0</h3>
+        <div id="game"></div>
+    </div>
+<script>
+var numMisses = 0;
+var numHits = 0;
+
+var hitAudio = document.createElement('audio');
+hitAudio.src = 'hit.wav';
+hitAudio.id = 'player';
+
+var missAudio = document.createElement('audio');
+missAudio.src = 'miss.wav';
+missAudio.id = 'player';
+
+
+function createMoles(x, y) {
+    var game = document.querySelector('#game');
+    for(var i=0; i < y; i++) {
+        var newRow = document.createElement('div');
+        newRow.className = 'game-row';
+        for(var j=0; j < x; j++) {
+            var newMole = document.createElement('img');
+            newMole.className = 'mole';
+            newMole.style.opacity = '0.3';
+            newMole.src = 'parrot.png';
+            newMole.dataset.timerId = 'null';
+            newRow.appendChild(newMole);
+        }
+        game.appendChild(newRow);
+    }
+}
+
+function updateScores() {
+    document.querySelector('#numMisses').innerHTML = 'Misses: ' + numMisses;
+    document.querySelector('#numHits').innerHTML = 'Hits: ' + numHits;
+}
+
+function onClick(e) {
+    e.target.style.opacity = '0.3';
+    if(e.target.dataset.timerId  !== 'null') {
+        document.body.appendChild(hitAudio);
+        hitAudio.play();
+        numHits++;
+        updateScores();
+        clearTimeout(e.target.dataset.timerId);
+        e.target.dataset.timerId = null;
+    }
+}
+
+function randomMole() {
+    var moles = document.querySelectorAll('.mole');
+    var whichMole;
+    do {
+        whichMole = moles[Math.floor(Math.random() * moles.length)];
+    } while (whichMole.dataset.timerId !== 'null');
+    whichMole.style.opacity = '1';
+    whichMole.dataset.timerId = setTimeout(function() {
+        whichMole.style.opacity = '0.3';
+        document.body.appendChild(missAudio);
+        missAudio.play();
+        numMisses++;
+        updateScores();
+        whichMole.dataset.timerId = 'null';
+    }, 1000);
+    setTimeout(randomMole, Math.floor(Math.random() * 2000 + 500));
+}
+
+function onLoad() {
+    createMoles(3, 3);
+
+    var moles = document.querySelectorAll('.mole');
+    for(var i=0; i<moles.length; i++) {
+        moles[i].addEventListener('click', onClick);
+    }
+    setTimeout(randomMole, 2000);
+}
+
+window.addEventListener('load', onLoad);
+
+
+</script>
+</body>
+</html>
