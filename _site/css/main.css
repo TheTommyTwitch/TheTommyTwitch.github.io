@@ -191,7 +191,7 @@ blockquote {
   width: 100%; }
   @media (min-width: 940px) {
     #nav.menu-open {
-      width: 30%; } }
+      width: 20%; } }
 
 #nav-left.menu-open-left {
   -webkit-transform: translateX(14rem);
@@ -201,7 +201,7 @@ blockquote {
   width: 100%; }
   @media (min-width: 940px) {
     #nav-left.menu-open-left {
-      width: 30%; } }
+      width: 20%; } }
 
 /* Separator after menu */
 #nav-list:after {
