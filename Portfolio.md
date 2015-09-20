@@ -10,14 +10,14 @@ For further details on FresNode, please visit the [repository on Github](https:/
 ![Emerald](img/fresnode.png "FresNode")
 
 ## Twitter Clone aka "Screamer"
-This was a project I did for the web development bootcamp at Fresno City College. It is meant to be a very simplistic clone of twitter. Users log in with their google account, and then they can post "screams". Everything is stored in the app-engine datastore.
+This was a project I did for the web development bootcamp at Fresno City College. It is meant to be a very simplistic clone of twitter. Users log in with their google account, and then they can post "screams". The backend is written in Golang, and powered by [Google App Engine](https://cloud.google.com/). Everything is stored in the app-engine datastore.
 
 For further details on Screamer, please visit the [repository on Github](https://github.com/TheTommyTwitch/twitter-project).
 
 ![Emerald](img/screamer.png "Screamer")
 
 ## Get the weather!
-This is a fun little page I made to display the current weather in San Diego, California. It uses an API from openweathermap.org, and even changes the background picture based on weather conditions!  
+This is a fun little page I made to display the current weather in San Diego, California. It uses an API from [Open Weather Map](http://openweathermap.org), and even changes the background picture based on weather conditions!  
 
 Check it out! [Code on Codepen](http://codepen.io/TheTommyTwitch/pen/EVVaGV).
 
