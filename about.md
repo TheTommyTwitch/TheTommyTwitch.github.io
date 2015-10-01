@@ -3,11 +3,7 @@ layout: page
 title: About
 ---
 ## About
-Emerald is a minimal theme created for Jekyll. The main purpose of Emerald is to provide a clear theme for those who want a blog ready to use, focused on the content and mobile-first.
-
-For further details on Emerald, please visit the [repository on Github](https://github.com/KingFelix/emerald/).
-
-
+Hey, I'm Thomas! I am a web applications developer currently focusing on the Node.js platform. Writing and improving my JavaScript skills is something I am passionate about. When not in front of the computer you can usually find me outside on my mountain bike!
 
 ## Education
 
