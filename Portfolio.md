@@ -3,9 +3,9 @@ layout: page
 title: Portfolio
 ---
 ## FresNode
-FresNode is a project I'm working on for the Fresno Node.js meetup group. The users will be able to log in with an oAuth of their choosing, and post a message! The backend is built on node.js, with handlebars as the templating engine. Information is stored using MongoDB.
+FresNode is a project I'm working on for the Fresno Node.js meetup group. The users are able to log in with the facebook api, and post a message! The backend is built using firebase, with handlebars as the templating engine.
 
-For further details on FresNode, please visit the [repository on Github](https://github.com/TheTommyTwitch/fresnode).
+View the live application [here!](https://fresnode.herokuapp.com/). For further details on FresNode, please visit the [repository on Github](https://github.com/TheTommyTwitch/fresnode).
 
 ![Emerald](img/fresnode.png "FresNode")
 
