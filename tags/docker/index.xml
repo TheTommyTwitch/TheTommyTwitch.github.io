@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Docker on tasadurian</title>
+    <link>/tags/docker/</link>
+    <description>Recent content in Docker on tasadurian</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 16 Jun 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Bootstrap PostgreSQL using Docker</title>
+      <link>/bootstrap-postgresql-using-docker/</link>
+      <pubDate>Sat, 16 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/bootstrap-postgresql-using-docker/</guid>
+      <description>Docker is a great tool for local development. Today we will look at how to bootstrap an instance of PostgreSQL with sample data to make development and testing a breeze. Files can be found here.
+First create a new directory for our files:
+mkdir postgres-bootstrap &amp;amp;&amp;amp; cd postgres-bootstrap  Next we will start off by creating our schema.sql file. Let&amp;rsquo;s make a table for customers and one for orders:
+CREATE USER bootstrap; CREATE DATABASE bootstrap; GRANT ALL PRIVILEGES ON DATABASE bootstrap TO bootstrap; \c bootstrap; CREATE TABLE customers ( created timestamp without time zone DEFAULT now(), id SERIAL PRIMARY KEY, email text, first_name text, last_name text ); ALTER TABLE customers OWNER TO &amp;quot;bootstrap&amp;quot;; CREATE TABLE orders ( created timestamp without time zone DEFAULT now(), id SERIAL PRIMARY KEY, customer_id integer, amount decimal ); ALTER TABLE orders OWNER TO &amp;quot;bootstrap&amp;quot;;  We want to fill the database with some mock data.</description>
+    </item>
+    
+  </channel>
+</rss>
