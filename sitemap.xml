@@ -3,40 +3,40 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/bootstrap-postgresql-using-docker/</loc>
+    <loc>http://www.tasadurian.com/bootstrap-postgresql-using-docker/</loc>
     <lastmod>2018-06-16T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/categories/</loc>
+    <loc>http://www.tasadurian.com/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/docker/</loc>
-    <lastmod>2018-06-16T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/</loc>
-    <lastmod>2018-06-16T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/postgres/</loc>
+    <loc>http://www.tasadurian.com/tags/docker/</loc>
     <lastmod>2018-06-16T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/post/</loc>
+    <loc>http://www.tasadurian.com/</loc>
+    <lastmod>2018-06-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.tasadurian.com/tags/postgres/</loc>
     <lastmod>2018-06-16T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/</loc>
+    <loc>http://www.tasadurian.com/post/</loc>
+    <lastmod>2018-06-16T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.tasadurian.com/tags/</loc>
     <lastmod>2018-06-16T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
