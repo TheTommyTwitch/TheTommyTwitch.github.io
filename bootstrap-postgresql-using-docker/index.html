@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap PostgreSQL using Docker | tasadurian</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-120896701-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+    <link rel="stylesheet" href="/css/theme-override.css">
+    <header>
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <nav>
+    <ul>
+      
+      
+      <li class="pull-left ">
+        <a href="/">/home/tasadurian</a>
+      </li>
+      
+      
+      <li class="pull-left ">
+        <a href="/tags/">~/tags</a>
+      </li>
+      
+
+      
+
+    </ul>
+  </nav>
+</header>
+
+  </head>
+
+  <body>
+    <br/>
+
+<div class="article-meta">
+<h1><span class="title">Bootstrap PostgreSQL using Docker</span></h1>
+<h2 class="author">Thomas Asadurian</h2>
+<h2 class="date">2018/06/16</h2>
+<p class="terms">
+  
+  
+  
+  
+  Tags: <a href="/tags/postgres">postgres</a> <a href="/tags/docker">docker</a> 
+  
+  
+</p>
+</div>
+
+
+
+<main>
+<p>Docker is a great tool for local development. Today we will look at how to bootstrap an instance of PostgreSQL with sample data to make development and testing a breeze. Files can be found <a href="https://github.com/TheTommyTwitch/bootstrap-postgres-docker">here</a>.</p>
+
+<hr />
+
+<p>First create a new directory for our files:</p>
+
+<pre><code>mkdir postgres-bootstrap &amp;&amp; cd postgres-bootstrap
+</code></pre>
+
+<hr />
+
+<p>Next we will start off by creating our <em>schema.sql</em> file. Let&rsquo;s make a table for customers and one for orders:</p>
+
+<pre><code class="language-sql">CREATE USER bootstrap;
+CREATE DATABASE bootstrap;
+GRANT ALL PRIVILEGES ON DATABASE bootstrap TO bootstrap;
+
+\c bootstrap;
+
+CREATE TABLE customers (
+    created timestamp without time zone DEFAULT now(),
+    id SERIAL PRIMARY KEY,
+    email text,
+    first_name text,
+    last_name text
+);
+
+ALTER TABLE customers OWNER TO &quot;bootstrap&quot;;
+
+CREATE TABLE orders (
+    created timestamp without time zone DEFAULT now(),
+    id SERIAL PRIMARY KEY,
+    customer_id integer,
+    amount decimal
+);
+
+ALTER TABLE orders OWNER TO &quot;bootstrap&quot;;
+</code></pre>
+
+<hr />
+
+<p>We want to fill the database with some mock data. Create two csv files <em>customers.csv</em> and <em>orders.csv</em>.</p>
+
+<p><em>customers.csv:</em></p>
+
+<pre><code class="language-csv">id,email,first_name,last_name
+1,bobby@gmail.com,Bob,Smith
+2,rob@gmail.com,Robert,Johnson
+3,tom@hotmail.com,Thomas,Zimmerman
+</code></pre>
+
+<p><em>orders.csv:</em></p>
+
+<pre><code class="language-csv">id,customer_id,amount
+1,1,12.76
+2,3,24.67
+3,1,55.98
+4,2,88.43
+5,1,23.54
+</code></pre>
+
+<hr />
+
+<p>Now create a file named <em>script.sh</em> to copy the data from the csv files into the database.</p>
+
+<pre><code class="language-sh">#!/bin/bash
+
+DATABASE_NAME=&quot;bootstrap&quot;
+ROLE_NAME=&quot;bootstrap&quot;
+
+for x in $(ls /tmp/data/customers.csv);
+do psql -d &quot;$DATABASE_NAME&quot; -h &quot;$POSTGRES_PORT_5432_TCP_ADDR&quot; -p &quot;$POSTGRES_PORT_5432_TCP_PORT&quot; -U postgres -c &quot;COPY customers(id,email,first_name,last_name) FROM '$x' DELIMITERS ',' CSV HEADER;&quot;; done
+echo &quot;*** CUSTOMERS DATA IMPORT COMPLETE ***&quot;
+
+for x in $(ls /tmp/data/orders.csv);
+do psql -d &quot;$DATABASE_NAME&quot; -h &quot;$POSTGRES_PORT_5432_TCP_ADDR&quot; -p &quot;$POSTGRES_PORT_5432_TCP_PORT&quot; -U postgres -c &quot;COPY orders(id,customer_id,amount) FROM '$x' DELIMITERS ',' CSV HEADER;&quot;; done
+echo &quot;*** ORDERS DATA IMPORT COMPLETE ***&quot;
+</code></pre>
+
+<hr />
+
+<p>The next thing we need is our <em>Dockerfile</em>. Let&rsquo;s start with the official <code>postgres:9.6</code> image as our base. On startup the official image will run any <em>.sh</em> and <em>.sql</em> files we put into the <code>/docker-entrypoint-initdb.d/</code> directory. We will also create the <code>/tmp/data/</code> directory and add the csv files.</p>
+
+<pre><code>FROM postgres:9.6
+
+RUN mkdir -p /tmp/data/
+ADD *.csv /tmp/data/
+
+ADD schema.sql /docker-entrypoint-initdb.d/
+ADD script.sh /docker-entrypoint-initdb.d/
+</code></pre>
+
+<p>When the container starts <em>schema.sql</em> will run, then <em>script.sh</em> will run.</p>
+
+<hr />
+
+<p>Build and start the container:</p>
+
+<pre><code class="language-bash">docker build -t bootstrap-postgres . &amp;&amp; docker run -p 5432:5432 bootstrap-postgres
+</code></pre>
+
+<p>Run some queries!</p>
+
+<pre><code class="language-sql">bootstrap=&gt; SELECT * FROM customers;
+
+          created           | id |      email      | first_name | last_name 
+----------------------------+----+-----------------+------------+-----------
+ 2018-06-16 23:09:11.822871 |  1 | bobby@gmail.com | Bob        | Smith
+ 2018-06-16 23:09:11.822871 |  2 | rob@gmail.com   | Robert     | Johnson
+ 2018-06-16 23:09:11.822871 |  3 | tom@hotmail.com | Thomas     | Zimmerman
+</code></pre>
+
+<pre><code class="language-sql">bootstrap=&gt; SELECT * FROM orders;
+
+          created           | id | customer_id | amount 
+----------------------------+----+-------------+--------
+ 2018-06-16 23:09:11.866757 |  1 |           1 |  12.76
+ 2018-06-16 23:09:11.866757 |  2 |           3 |  24.67
+ 2018-06-16 23:09:11.866757 |  3 |           1 |  55.98
+ 2018-06-16 23:09:11.866757 |  4 |           2 |  88.43
+ 2018-06-16 23:09:11.866757 |  5 |           1 |  23.54
+</code></pre>
+
+<p>Success! Our test data has been added on startup.</p>
+
+<p><img src="http://emojis.slackmojis.com/emojis/images/1475875185/1223/party-dinosaur.gif?1475875185" alt="Party" /></p>
+
+</main>
+
+    <footer>
+      
+<script>
+(function() {
+  function center_el(tagName) {
+    var tags = document.getElementsByTagName(tagName), i, tag;
+    for (i = 0; i < tags.length; i++) {
+      tag = tags[i];
+      var parent = tag.parentElement;
+      
+      if (parent.childNodes.length === 1) {
+        
+        if (parent.nodeName === 'A') {
+          parent = parent.parentElement;
+          if (parent.childNodes.length != 1) continue;
+        }
+        if (parent.nodeName === 'P') parent.style.textAlign = 'center';
+      }
+    }
+  }
+  var tagNames = ['img', 'embed', 'object'];
+  for (var i = 0; i < tagNames.length; i++) {
+    center_el(tagNames[i]);
+  }
+})();
+</script>
+
+      
+      <hr/>
+      Thomas Asadurian | <a href="https://github.com/TheTommyTwitch">Github</a> | <a href="https://www.linkedin.com/in/thomasasadurian/">LinkedIn</a>
+      
+    </footer>
+  </body>
+</html>
+
