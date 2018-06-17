@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on tasadurian</title>
-    <link>/post/</link>
+    <link>http://www.tasadurian.com/post/</link>
     <description>Recent content in Posts on tasadurian</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 16 Jun 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://www.tasadurian.com/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Bootstrap PostgreSQL using Docker</title>
-      <link>/bootstrap-postgresql-using-docker/</link>
+      <link>http://www.tasadurian.com/bootstrap-postgresql-using-docker/</link>
       <pubDate>Sat, 16 Jun 2018 00:00:00 +0000</pubDate>
       
-      <guid>/bootstrap-postgresql-using-docker/</guid>
+      <guid>http://www.tasadurian.com/bootstrap-postgresql-using-docker/</guid>
       <description>Docker is a great tool for local development. Today we will look at how to bootstrap an instance of PostgreSQL with sample data to make development and testing a breeze. Files can be found here.
 First create a new directory for our files:
 mkdir postgres-bootstrap &amp;amp;&amp;amp; cd postgres-bootstrap  Next we will start off by creating our schema.sql file. Let&amp;rsquo;s make a table for customers and one for orders:
